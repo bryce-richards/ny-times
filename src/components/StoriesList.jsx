@@ -8,11 +8,13 @@ export default class StoriesList extends Component {
 
   buildStoryListItems() {
     const { stories } = this.props;
-    const maxStories = stories.slice(0, 30);
+    if (stories) {
+      const maxStories = stories.slice(0, 30);
 
-    return maxStories.map((story, i) => {
-      return <StoriesListItem key={i} story={story} />;
-    });
+      return maxStories.map((story, i) => {
+        return <StoriesListItem key={i} story={story} />;
+      });
+    }
   }
 
   render() {

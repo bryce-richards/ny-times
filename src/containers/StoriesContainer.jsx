@@ -23,7 +23,6 @@ export default class StoriesContainer extends Component {
       ? `${this.state.sectionFilter}.json`
       : "";
     const url = `${BASE_URL}/${section}?api-key=${API_KEY}`;
-    console.log("url: ", url);
     fetch(url)
       .then(res => {
         return res.json();
@@ -45,18 +44,55 @@ export default class StoriesContainer extends Component {
 
   handleFilterChange(state) {
     const { textFilter, sectionFilter } = state;
-    this.setState(
-      {
-        textFilter,
-        sectionFilter
-      },
-      () => {
-        this.fetchArticles();
-      }
-    );
+
+    // if section was changed, fetch articles
+    if (sectionFilter !== this.state.sectionFilter) {
+      this.setState(
+        {
+          sectionFilter
+        },
+        () => {
+          if (this.state.sectionFilter) {
+            this.fetchArticles();
+          }
+        }
+      );
+    }
+
+    // if text was changed, filter articles
+    if (textFilter !== this.state.textFilter) {
+      this.setState(
+        {
+          textFilter
+        },
+        () => {
+          this.filterStories();
+        }
+      );
+    }
   }
 
-  filterStories() {}
+  filterStories() {
+    const { stories, textFilter } = this.state;
+    let filteredStories = [];
+
+    // user needs to type more than 3 characters to trigger the filter
+    if (textFilter.length > 3 && this.state.stories) {
+      for (let i = 0; i < stories.length; i++) {
+        const { title, abstract } = stories[i];
+        if (title.search(textFilter) > -1 || abstract.search(textFilter) > -1) {
+          filteredStories.push(stories[i]);
+        }
+      }
+      this.setState({
+        filteredStories
+      });
+    } else {
+      this.setState({
+        filteredStories: stories
+      });
+    }
+  }
 
   render() {
     return (
@@ -65,7 +101,7 @@ export default class StoriesContainer extends Component {
           <h1>NY Times Top Stories</h1>
         </nav>
         <FilterContainer onFilterChange={this.handleFilterChange} />
-        <StoriesList stories={this.state.stories} />
+        <StoriesList stories={this.state.filteredStories} />
       </div>
     );
   }

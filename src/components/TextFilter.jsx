@@ -22,7 +22,6 @@ export default class TextFilter extends Component {
   }
 
   render() {
-    console.log("props: ", this.props);
     return (
       <div className="col">
         <label htmlFor="textFilter">Search</label>
