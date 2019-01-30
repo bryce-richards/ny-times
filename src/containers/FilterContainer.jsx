@@ -1,36 +1,44 @@
 import React, { Component } from "react";
-import { SECTIONS } from "../helpers/constants";
+import TextFilter from "../components/TextFilter";
+import SectionFilter from "../components/SectionFilter";
 
 export default class FilterContainer extends Component {
-  buildSectionOptions() {
-    return SECTIONS.map(section => {
-      const { name, value } = section;
-      return (
-        <option key={value} value={value}>
-          {name}
-        </option>
-      );
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      textFilter: "",
+      sectionFilter: ""
+    };
+
+    this.handleTextFilter = this.handleTextFilter.bind(this);
+    this.handleSectionFilter = this.handleSectionFilter.bind(this);
+  }
+
+  handleTextFilter(textFilter) {
+    const { onFilterChange } = this.props;
+
+    this.setState({ textFilter }, () => {
+      onFilterChange(this.state);
+    });
+  }
+
+  handleSectionFilter(sectionFilter) {
+    const { onFilterChange } = this.props;
+
+    this.setState({ sectionFilter }, () => {
+      onFilterChange(this.state);
     });
   }
 
   render() {
     return (
       <div className="row">
-        Filter Container
-        <form>
-          <div className="form-group">
-            <label htmlFor="sectionFilter">Section</label>
-            <select className="form-control" id="sectionFilter">
-              {this.buildSectionOptions()}
-            </select>
+        <form className="col">
+          <div className="row form-group">
+            <SectionFilter onSectionFilter={this.handleSectionFilter} />
+            <TextFilter onTextFilter={this.handleTextFilter} />
           </div>
-          <div className="form-group">
-            <label htmlFor="textFilter">Search</label>
-            <input type="text" className="form-control" id="textFilter" />
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
         </form>
       </div>
     );

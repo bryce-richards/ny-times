@@ -4,29 +4,68 @@ import FilterContainer from "./FilterContainer";
 import StoriesList from "../components/StoriesList";
 
 export default class StoriesContainer extends Component {
-  componentWillMount() {
-    this.setState({
+  constructor(props) {
+    super(props);
+
+    this.state = {
       stories: [],
-      section: ""
-    });
+      sectionFilter: "",
+      textFilter: ""
+    };
 
-    // this.onInputChange = this.onInputChange.bind(this);
+    this.fetchArticles = this.fetchArticles.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
+    this.filterStories = this.filterStories.bind(this);
   }
 
-  buildSectionOptions() {
-    return <select />;
+  fetchArticles() {
+    const section = this.state.sectionFilter.length
+      ? `${this.state.sectionFilter}.json`
+      : "";
+    const url = `${BASE_URL}/${section}?api-key=${API_KEY}`;
+    console.log("url: ", url);
+    fetch(url)
+      .then(res => {
+        return res.json();
+      })
+      .then(json => {
+        this.setState(
+          {
+            stories: json.results
+          },
+          () => {
+            this.filterStories();
+          }
+        );
+      })
+      .catch(e => {
+        console.log("Error: ", e);
+      });
   }
 
-  fetchArticles(value) {
-    const section = value.length ? `{value}.json` : "";
-    const url = `${BASE_URL}/${section}`;
+  handleFilterChange(state) {
+    const { textFilter, sectionFilter } = state;
+    this.setState(
+      {
+        textFilter,
+        sectionFilter
+      },
+      () => {
+        this.fetchArticles();
+      }
+    );
   }
+
+  filterStories() {}
 
   render() {
     return (
       <div className="container">
-        <FilterContainer />
-        <StoriesList />
+        <nav>
+          <h1>NY Times Top Stories</h1>
+        </nav>
+        <FilterContainer onFilterChange={this.handleFilterChange} />
+        <StoriesList stories={this.state.stories} />
       </div>
     );
   }

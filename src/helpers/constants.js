@@ -20,7 +20,7 @@ export const SECTIONS = [
   { name: "Opinion", value: "opinion" },
   { name: "Politics", value: "politics" },
   { name: "Real Estate", value: "realestate" },
-  { name: "Ccience", value: "science" },
+  { name: "Science", value: "science" },
   { name: "Sports", value: "sports" },
   { name: "Sunday Review", value: "sundayreview" },
   { name: "Technology", value: "technology" },
