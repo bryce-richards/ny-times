@@ -101,7 +101,11 @@ export default class StoriesContainer extends Component {
           <h1>NY Times Top Stories</h1>
         </nav>
         <FilterContainer onFilterChange={this.handleFilterChange} />
-        <StoriesList stories={this.state.filteredStories} />
+        {this.state.sectionFilter ? (
+          <StoriesList stories={this.state.filteredStories} />
+        ) : (
+          <h3>Select a News Section</h3>
+        )}
       </div>
     );
   }
