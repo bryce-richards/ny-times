@@ -3,6 +3,7 @@ export const BASE_URL = "https://api.nytimes.com/svc/topstories/v2";
 export const API_KEY = "jGH6In5YmMH6Sd1oRjGXi8LJh3JFe6uE";
 
 export const SECTIONS = [
+  { name: "--", value: "" },
   { name: "Arts", value: "arts" },
   { name: "Automobiles", value: "automobiles" },
   { name: "Books", value: "books" },
