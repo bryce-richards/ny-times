@@ -3,8 +3,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Demo available at https://gentle-sands-64149.herokuapp.com/.
 
 ### To install
-Clone or download the repository. Inside the directory, run the command 'npm install'.
+Clone or download the repository. Inside the project directory, run the command 'npm install'.
 
 ### To run
 
-Inside the directory, run the command 'npm run start'.
+Inside the project directory, run the command 'npm run start'.
